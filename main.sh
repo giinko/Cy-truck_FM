@@ -9,8 +9,8 @@ fi
 # Vérifier et créer le dossier temp /!\ A REVOIR ICI CAR C4EST A LA FIN QU4IL FAUT SUPP MAIS CE TCHECK EST PAS MAL AUSSI
 if [ ! -d temp ]; then
     mkdir temp
-#else
- #x   rm -rf temp/*
+else
+    rm -rf temp/*
 fi
 
 # Vérifier et créer le dossier images
@@ -36,33 +36,85 @@ case "$2" in
         echo "Aide en cours de développement ..."
         exit 0
         ;;
-    -d)
-        echo "On rentre dans le -d"
-        conducteurs_csv="$1"  # Chemin vers le fichier CSV des conducteurs
+
+
+    -d1)
+        echo "On rentre dans le -d1"
+        data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
         # Utiliser awk pour extraire les noms des conducteurs et le nombre de trajets
-        awk -F ";" '{count[$6]++} END {for (c in count) print c, count[c]}' "$conducteurs_csv" |
-            sort -k2,2nr |  # Trier par le nombre de trajets en ordre décroissant
-            head -n 10 |    # Garder les 10 premiers conducteurs
-            awk '{print $2, $1}' > temp/conducteurs_d1.txt  # Inverser l'ordre pour le graphique
+        awk -F ";" '{count[$6]+=1} END {for (c in count) print c,";" count[c]}' "$data_csv" |
+        sort -t';' -k2 -n -r | head -10 > temp/conducteurs1.txt
+        tac temp/conducteurs1.txt > temp/conducteurs2.txt
 
         # Créer un graphique horizontal avec Gnuplot
-        gnuplot -e "set terminal pngcairo; set output 'images/graphique_d1.png'; set xlabel 'Nombre de trajets'; set ylabel 'Conducteurs'; set ytics nomirror; set style fill solid; set title 'Conducteurs avec le plus de trajets'; plot 'temp/conducteurs_d1.txt' using 2:1:xticlabels(1) with boxes title 'Nombre de trajets'"
-        ;;
+        echo       "set terminal pngcairo enhanced font 'arial,10' size 800,600
+                    set output 'images/conducteurs.png'
+                    set datafile separator ';'
+
+                    set style fill solid
+                    set title font 'Arial,18'
+                    set title 'Nombres totales de trajets par chauffeurs'
+                    set margin 15,2,7,5
+
+                    set ylab 'Noms des chauffeurs' font 'Arial, 15' offset -6,0
+                    set xlab 'Nombres de trajets' font 'Arial, 15' offset 2,0
+
+                    set xrange [3400:4600]
+                    set yrange [-0.5:8.5]
+                    set ytics rotate by 60 offset 1,.2 right
+
+
+                    plot 'temp/conducteurs2.txt' u (\$2/2):0:(\$2/2):(0.35/2.):ytic(1) w boxxy ti 'Trajet'" > temp/conducteurs.gp
         
+        gnuplot temp/conducteurs.gp
+        ;;
+
+
+    -d2)
+        echo "On rentre dans le -d2"
+        data_csv="$1"
+
+        awk -F ";" '{count[$6]+=$5} END {for (c in count) print c,";" count[c]}' "$data_csv" | 
+        sort -t';' -k2 -n -r | head -10 > temp/distance1.txt
+        tac temp/distance1.txt > temp/distance2.txt
+
+        echo       "set terminal pngcairo enhanced font 'arial,10' size 800,600
+                    set output 'images/distance.png'
+                    set datafile separator ';'
+
+                    set style fill solid
+                    set title font 'Arial,18'
+                    set title 'Distance parcouru par chaque chauffeur'
+                    set margin 15,2,7,5
+
+                    set ylab 'Noms des chauffeurs' font 'Arial, 15' offset -6,0
+                    set xlab 'Distance parcouru' font 'Arial, 15' offset 2,0
+
+                    set xrange [100000:160000]
+                    set yrange [-0.5:8.5]
+                    set ytics rotate by 60 offset 1,.2 right
+
+
+                    plot 'temp/distance2.txt' u (\$2/2):0:(\$2/2):(0.35/2.):ytic(1) w boxxy ti 'Distance en KM'" > temp/distance.gp
+        
+        gnuplot temp/distance.gp
+        ;;
+
+
     *)
         echo "option inconnu apprend a lire tete de zeb"
         exit 1
         ;;
 esac
 
+# Pour supprimer tous les fichiers dans le dossiers temps /!\ voir si nécessaire dans la consigne 
+rm -rf temp/*
 
-# Mesurer le temps après le traitement ======== bonne idée je note
+# Mesurer le temps après le traitement (pour voir si respect la contrainte de temps)
 end_time=$(date +%s)
 elapsed_time=$((end_time - start_time))
 echo "Durée totale des traitements : $elapsed_time secondes"
 
-# Créer le graphique avec GnuPlot
-gnuplot -e "datafile='chemin_vers_le_fichier_de_sortie'" -e "outputfile='images/graphique.png'" chemin_vers_le_script_gnuplot
 
 echo "Traitement terminé avec succès. Le graphique a été créé dans le dossier 'images'."
