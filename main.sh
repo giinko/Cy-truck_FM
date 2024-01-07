@@ -32,22 +32,24 @@ start_time=$(date +%s)
 
 # Traitement des cas
 case "$2" in
+
+    # -h : Aide pour comprendre la commande
     -h)
         echo "Aide en cours de développement ..."
         exit 0
         ;;
 
-
+    # cas -d1 : Nombre totale de tajet par chauffeur 
     -d1)
-        echo "On rentre dans le -d1"
+        echo "Traitement de votre demande en cours ..."
         data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
-        # Utiliser awk pour extraire les noms des conducteurs et le nombre de trajets
+        # Extraire les noms des conducteurs et le nombre de trajets
         awk -F ";" '{count[$6]+=1} END {for (c in count) print c,";" count[c]}' "$data_csv" |
         sort -t';' -k2 -n -r | head -10 > temp/conducteurs1.txt
         tac temp/conducteurs1.txt > temp/conducteurs2.txt
 
-        # Créer un graphique horizontal avec Gnuplot
+        # Créer le graphique avec Gnuplot
         echo       "set terminal pngcairo enhanced font 'arial,10' size 800,600
                     set output 'images/conducteurs.png'
                     set datafile separator ';'
@@ -70,10 +72,10 @@ case "$2" in
         gnuplot temp/conducteurs.gp
         ;;
 
-
+    # cas -d2 : La distance parcouru par chaque chauffeur
     -d2)
-        echo "On rentre dans le -d2"
-        data_csv="$1"
+        echo "Traitement de votre demande en cours ..."
+        data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
         awk -F ";" '{count[$6]+=$5} END {for (c in count) print c,";" count[c]}' "$data_csv" | 
         sort -t';' -k2 -n -r | head -10 > temp/distance1.txt
@@ -101,7 +103,16 @@ case "$2" in
         gnuplot temp/distance.gp
         ;;
 
+    -l)
+        echo "Traitement de votre demande en cours ..."
+        data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
+        awk -F ";" '{count[$1]+=$5} END {for (c in count) print c,";" count[c]}' "$data_csv" | sort -t";" -k2 -n -r | 
+        head -10 > temp/trajet1.txt
+
+        #Cree le graphique gnuplot
+        ;;
+a
     *)
         echo "option inconnu apprend a lire tete de zeb"
         exit 1
@@ -118,3 +129,9 @@ echo "Durée totale des traitements : $elapsed_time secondes"
 
 
 echo "Traitement terminé avec succès. Le graphique a été créé dans le dossier 'images'."
+
+#Pour les addtions dans les traitements, bash ne prend pas en compte les nombres négatifs, discuter si on choisit de faire 
+#un coéfitent pour déduire l'erreur (0.4 * nbr_de_ligne). 
+
+
+#p + coord_flip() pour tourner un graphique gnuplot : a tester voir ce que ca donnne .
