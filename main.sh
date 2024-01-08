@@ -107,12 +107,32 @@ case "$2" in
         echo "Traitement de votre demande en cours ..."
         data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
-        awk -F ";" '{count[$1]+=$5} END {for (c in count) print c,";" count[c]}' "$data_csv" | sort -t";" -k2 -n -r | 
-        head -10 > temp/trajet1.txt
+        awk -F ";" '{count[$1]+=$5} END {for (c in count) print c,";" count[c]}' ../../Documents/data.csv | sort -t";" -k2 -n -r | 
+        head -10 | sort -t";" -k1 -n> temp/trajet1.txt
+ 
+        echo   "set terminal pngcairo enhanced font 'arial,10' size 800,600
+                set output 'images/trajet_distance.png'
+                set datafile separator ';'
 
-        #Cree le graphique gnuplot
+                set style data histogram
+                set style fill solid border -1
+
+                set title 'Histogramme Vertical des Distances de Trajets' font 'Arial, 15'
+                set xlabel 'Identifiant du Trajet' font 'Arial, 12' offset 0,-0.3
+                set ylabel 'Distance (km)' font 'Arial, 12' offset 0.3,0
+                set style fill solid 1
+                set boxwidth 0.8
+
+                set lmargin 10
+                set rmargin 2
+                set tmargin 4
+                set bmargin 4
+
+                plot 'temp/trajet1.txt' u 2:xtic(1) title 'Nbr Km' lc 'red'" > temp/trajet2.gp
+
+        gnuplot temp/trajet2.gp
         ;;
-a
+
     *)
         echo "option inconnu apprend a lire tete de zeb"
         exit 1
