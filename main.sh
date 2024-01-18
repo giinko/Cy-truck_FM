@@ -49,7 +49,7 @@ case "$2" in
         data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
         # Extraire les noms des conducteurs et le nombre de trajets
-        awk -F';' '!seen[$1]++' "$data_csv" | awk -F ";" '{count[$6]+=1} END {for (c in count) print c,";" count[c]}' |
+        awk -F ";" '{if ($2==1){count[$6]+=1} else{echo non}} END {for (c in count) print c,";" count[c]}' "$data_csv" |
         sort -t';' -k2,2nr | head -10 | tac > temp/conducteurs2.txt
 
         # Créer le graphique avec Gnuplot
@@ -106,7 +106,7 @@ case "$2" in
         echo "Traitement de votre demande en cours ..."
         data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
-        awk -F ";" '{count[$1]+=$5} END {for (c in count) print c,";" count[c]}' ../../Documents/data.csv | sort -t";" -k2 -n -r | 
+        awk -F ";" '{count[$1]+=$5} END {for (c in count) print c,";" count[c]}' "$data_csv" | sort -t";" -k2 -n -r | 
         head -10 | sort -t";" -k1 -n> temp/trajet1.txt
  
         echo   "set terminal pngcairo enhanced font 'arial,10' size 800,600
@@ -144,9 +144,3 @@ echo "Durée totale des traitements : $elapsed_time secondes"
 
 
 echo "Traitement terminé avec succès. Le graphique a été créé dans le dossier 'images'."
-
-#Pour les addtions dans les traitements, bash ne prend pas en compte les nombres négatifs, discuter si on choisit de faire 
-#un coéfitent pour déduire l'erreur (0.4 * nbr_de_ligne). 
-
-
-#p + coord_flip() pour tourner un graphique gnuplot : a tester voir ce que ca donnne .
