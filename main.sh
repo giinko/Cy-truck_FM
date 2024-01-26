@@ -129,7 +129,7 @@ case "$2" in
         ;;
 
     *)
-        echo "option inconnu apprend a lire tete de zeb"
+        echo "option inconnue, veuillez réessayez"
         exit 1
         ;;
 esac

@@ -3,10 +3,11 @@
 #include <stdlib.h>
 
 // Fonction qui creer un nouveau noeud
-AVL* creation_noeud(int valeur) {
+AVL* creation_noeud(Etape* info) {
 
     AVL* nouveau = malloc(sizeof(AVL));
-    nouveau->valeur = valeur;
+    nouveau->info = info;
+    nouveau->valeur = info->cle;
     nouveau->gauche = NULL;
     nouveau->droite = NULL;
     nouveau->hauteur = 1;

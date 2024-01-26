@@ -4,7 +4,7 @@
 
 typedef struct {
 	unsigned int route_id;
-	unsigned short etape_id; // si ne dépasse pas 255 on peut faire : unsigned char number
+	unsigned short etape_id;
 	char* ville_1;
 	char* ville_2;
 	float distance;
