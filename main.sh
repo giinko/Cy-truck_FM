@@ -38,9 +38,21 @@ start_time=$(date +%s)
 case "$2" in
 
     # -h : Aide pour comprendre la commande
-    -h)
-        echo "Aide en cours de développement ..."
-        exit 0
+    -h|--help)
+        echo "Usage: $0 <chemin_fichier_csv> [-h | -d1 | -d2 | -l ]"
+    echo
+    echo "Options:"
+    echo "  -h, --help    Affiche cette aide"
+    echo "  -d1           Affiche le nombre total de trajets par chauffeur"
+    echo "  -d2           Affiche la distance totale parcourue par chaque chauffeur"
+    echo "  -l            Affiche un histogramme vertical des distances de trajets"
+    echo "  -traitement 5 *Explication du traitement 5*"
+    echo
+    echo "Exemples:"
+    echo "  $0 fichier.csv -d1"
+    echo "  $0 fichier.csv -d2"
+    echo "  $0 fichier.csv -l"
+    exit 0
         ;;
 
     # cas -d1 : Nombre totale de tajet par chauffeur 
@@ -49,7 +61,7 @@ case "$2" in
         data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
         # Extraire les noms des conducteurs et le nombre de trajets
-        awk -F ";" '{if ($2==1){count[$6]+=1} else{echo non}} END {for (c in count) print c,";" count[c]}' "$data_csv" |
+        awk -F ";" '{if ($2==1){count[$6]+=1}} END {for (c in count) print c,";" count[c]}' "$data_csv" |
         sort -t';' -k2,2nr | head -10 | tac > temp/conducteurs2.txt
 
         # Créer le graphique avec Gnuplot
