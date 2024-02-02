@@ -179,36 +179,11 @@ case "$2" in
         cd ../..
 
         echo "
-            
-            datafile = 'votre_fichier_de_donnees.txt'
-
-            stats datafile u 4:($3-$2) nooutput
-            sortcolumn = column(-1)
-
-            num_lines_to_keep = 50
-
-            set table 'temp_sorted_data.txt'
-            plot datafile using (sortcolumn):(1):2:3 every ::0::(num_lines_to_keep-1) with table
-            unset table
-
-            set style fill transparent solid 0.5 noborder
-            set style line 1 lt 1 lw 2 lc rgb 'blue'
-            set style line 2 lt 1 lw 2 lc rgb 'red'
-            set style line 3 lt 1 lw 2 lc rgb 'green'
-
-            set key top left
-            set xlabel 'ID Trajet'
-            set ylabel 'Distances (km)''
-            set title 'Courbes Min-Max-Moyenne'
-            set xrange [0:num_lines_to_keep-1]
-
-            plot 'temp_sorted_data.txt' using 1:2:3 with filledcurves x1 title 'Min', \
-                 '' using 1:4:5 with filledcurves x1 title 'Max', \
-                 '' using 1:($3+($4-$3)/2):($4-$3) with candlesticks title 'Moyenne' whiskerbars ls 3
+          
 
             "
             #pas encore fonctionnel !! a finir !
-
+        ;;
     *)
         echo "option inconnue, veuillez réessayez"
         exit 1
