@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Fonction qui reenvoie le max entre 2 valeurs
+// Fonction qui renvoie le max entre 2 valeurs
 int max(int a, int b) {
     if (a >= b){
         return a;
@@ -13,7 +13,7 @@ int max(int a, int b) {
     }
 }
 
-// Fonction qui reenvoie le min entre 2 valeurs
+// Fonction qui renvoie le min entre 2 valeurs
 int min(int a,int b){
     if (a <= b){
         return a;
@@ -148,7 +148,7 @@ void infixe(AVL* arbre) {
     }
 }
 
-// Tri l'AVL initiale en fonction de (min-max) et le stock dans AVL final
+// Tri l'AVL initial en fonction de (min-max) et le stock dans AVL final
 void final_tri(AVL* initial, AVL** final) {
     if (initial != NULL) {
         initial->info->cle = (initial->info->max)-(initial->info->min);
@@ -178,7 +178,7 @@ void infixe_inverse(AVL* abr, int* compteur) {
     }
 }
 
-//Libere la memoire aloué 
+//Libere la memoire alouée 
 void liberer_arbre(AVL* noeud) {
     if (noeud != NULL) {
         liberer_arbre(noeud->gauche);
