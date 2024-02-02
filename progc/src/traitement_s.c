@@ -7,13 +7,13 @@ int main(int argc, char const *argv[])
 {
 
     if(argc != 2){
-        printf("Erreur d'appelle de la fonction AVL\n");
+        printf("Erreur d'appel de la fonction AVL\n");
         exit(1);
     }
 
     const char* chemin = argv[1];
     
-    //On ajoute ../../ vue que le répertoit ou est main.sh est plus haut
+    //On ajoute ../../ vu que le répertoire où se situe main.sh est plus haut
     char* concat = malloc(sizeof(char)*(strlen("../../") + strlen(chemin) + 1));
     strcpy(concat, "../../");
     strcat(concat, chemin);
@@ -29,11 +29,11 @@ int main(int argc, char const *argv[])
 
     free(concat);
 
-    // Lire chaque ligne du fichier csv
+    // Lire chaque ligne du fichier .csv
     char ligne[1024];
     while (fgets(ligne, sizeof(ligne), fichier)) {
 
-        //Pour lire chaque ligne du csv et l'ajouter a une structure.
+        //Pour lire chaque ligne du .csv et l'ajouter à une structure.
         char* token = strtok(ligne, ";");
         Ligne_csv* ligne_csv = malloc(sizeof(Ligne_csv));
 
@@ -59,7 +59,7 @@ int main(int argc, char const *argv[])
 
         AVL* cherche = rechercher_noeud(abr,ligne_csv->route_id);
 
-        //Si le noeud existe on ajoute sinon on cree
+        //Si le noeud existe, alors on ajoute, sinon on créé
         if (cherche){
 
             cherche->info->min = min(cherche->info->min,ligne_csv->distance);
@@ -92,7 +92,7 @@ int main(int argc, char const *argv[])
     // Prendre uniquement les 50 plus grands
     infixe_inverse(arbre,&c);
 
-    // Libere la memoire aloué a l'arbre
+    // Libere la memoire alouée à l'arbre
     liberer_arbre(arbre);
 
     return 0;
