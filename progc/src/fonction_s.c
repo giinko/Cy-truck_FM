@@ -148,6 +148,7 @@ void infixe(AVL* arbre) {
     }
 }
 
+// Tri l'AVL initiale en fonction de (min-max) et le stock dans AVL final
 void final_tri(AVL* initial, AVL** final) {
     if (initial != NULL) {
         initial->info->cle = (initial->info->max)-(initial->info->min);
@@ -158,6 +159,7 @@ void final_tri(AVL* initial, AVL** final) {
     }
 }
 
+//Récupere les 50 dernieres valeurs pour le tri
 void infixe_inverse(AVL* abr, int* compteur) {
     
     
@@ -176,6 +178,7 @@ void infixe_inverse(AVL* abr, int* compteur) {
     }
 }
 
+//Libere la memoire aloué 
 void liberer_arbre(AVL* noeud) {
     if (noeud != NULL) {
         liberer_arbre(noeud->gauche);

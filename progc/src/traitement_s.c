@@ -29,6 +29,7 @@ int main(int argc, char const *argv[])
 
     free(concat);
 
+    // Lire chaque ligne du fichier csv
     char ligne[1024];
     while (fgets(ligne, sizeof(ligne), fichier)) {
 
@@ -58,6 +59,7 @@ int main(int argc, char const *argv[])
 
         AVL* cherche = rechercher_noeud(abr,ligne_csv->route_id);
 
+        //Si le noeud existe on ajoute sinon on cree
         if (cherche){
 
             cherche->info->min = min(cherche->info->min,ligne_csv->distance);
@@ -82,12 +84,15 @@ int main(int argc, char const *argv[])
     AVL* arbre = malloc(sizeof(AVL));
     arbre=NULL;
 
+    // Creer un AVL en fonction de (max-min)
     final_tri(abr,&arbre);
 
     int c = 0;
 
+    // Prendre uniquement les 50 plus grands
     infixe_inverse(arbre,&c);
 
+    // Libere la memoire aloué a l'arbre
     liberer_arbre(arbre);
 
     return 0;

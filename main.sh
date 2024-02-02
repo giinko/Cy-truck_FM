@@ -94,6 +94,7 @@ case "$2" in
         sort -t';' -k2 -n -r | head -10 > temp/distance1.txt
         tac temp/distance1.txt > temp/distance2.txt
 
+        #Creation d'un dossier pour le script gnuplot
         echo       "set terminal pngcairo enhanced font 'arial,10' size 800,600
                     set output 'images/distance.png'
                     set datafile separator ';'
@@ -113,14 +114,16 @@ case "$2" in
         
         gnuplot temp/distance.gp
         ;;
-
+    # Traitement -l
     -l)
         echo "Traitement de votre demande en cours ..."
         data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
+        #ligne de code qui effectue le tri
         awk -F ";" '{count[$1]+=$5} END {for (c in count) print c,";" count[c]}' "$data_csv" | sort -t";" -k2 -n -r | 
         head -10 | sort -t";" -k1 -n> temp/trajet1.txt
- 
+        
+        #Creation d'un dossier pour le script gnuplot
         echo   "set terminal pngcairo enhanced font 'arial,10' size 800,600
                 set output 'images/trajet_distance.png'
                 set datafile separator ';'
@@ -144,10 +147,12 @@ case "$2" in
         echo "Traitement de votre demande en cours ..."
         data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
+        #Se diriger dans le dossire ou ont été compiler les fichier necessaire au traitement
         cd progc/src
         ./traitement_t "$data_csv" > ../../temp/traitement_t.txt
         cd ../..
 
+        #Creation d'un dossier pour le script gnuplot
         echo   "
                 set terminal pngcairo enhanced font 'arial,10' size 800,600
                 set output 'images/histogram.png'
@@ -173,10 +178,12 @@ case "$2" in
         echo "Traitement de votre demande en cours ..."
         data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
+        #Se diriger dans le dossire ou ont été compiler les fichier necessaire au traitement
         cd progc/src
         ./traitement_s "$data_csv" > ../../temp/traitement_s.txt
         cd ../..
 
+        #Creation d'un dossier pour le script gnuplot
         echo "
             set terminal pngcairo enhanced font 'arial,10' size 1000,600
             set output 'images/traitement_s.png'
