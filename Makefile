@@ -7,4 +7,4 @@ progc/src/traitement_s: progc/src/traitement_s.c progc/src/fonction_s.c
 	gcc progc/src/traitement_s.c progc/src/fonction_s.c -o progc/src/traitement_s
 
 clean:
-	rm -f *.o
+	rm -f progc/src/traitement_t progc/src/traitement_s
