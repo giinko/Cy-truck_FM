@@ -28,7 +28,6 @@ int main(int argc, char const *argv[])
     fichier = fopen(concat,"r");
 
     free(concat);
-
     char ligne[1024];
     while (fgets(ligne, sizeof(ligne), fichier)) {
 

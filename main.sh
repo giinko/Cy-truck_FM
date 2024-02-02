@@ -180,7 +180,7 @@ case "$2" in
 
         #Se diriger dans le dossire ou ont été compiler les fichier necessaire au traitement
         cd progc/src
-        ./traitement_s "$data_csv" > ../../temp/traitement_s.txt
+        ./traitement_s "$data_csv" #> ../../temp/traitement_s.txt
         cd ../..
 
         #Creation d'un dossier pour le script gnuplot
