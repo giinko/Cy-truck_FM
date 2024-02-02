@@ -10,39 +10,38 @@ Bienvenue dans le projet CY TRUCK ! Ce script Shell et le programme C associé o
 
 ## Installation
 
-1. Cloner le dépôt : `git clone https://github.com/votre-utilisateur/cy-truck.git`
+1. Cloner le dépôt : `git clone https://github.com/giinko/cy-truck.git`
 2. Se déplacer dans le répertoire : `cd cy-truck`
-3. Exécuter le script d'installation : `./install.sh`
 
 ## Traitements
 
 #### Traitement [D1] : Conducteurs avec le plus de trajets
 ```bash
-./cy-truck.sh chemin_du_fichier -d1
+./main.sh <chemin_du_fichier> -d1
 ```
 Récupère la liste des 10 conducteurs avec le plus de trajets, puis crée un histogramme horizontal.
 
 #### Traitement [D2] : Conducteurs et la plus grande distance
 ```bash
-./cy-truck.sh chemin_du_fichier -d2
+./main.sh <chemin_du_fichier> -d2
 ```
 Calcule la distance totale parcourue par chaque conducteur, puis crée un histogramme horizontal.
 
 #### Traitement [L] : Les 10 trajets les plus longs
 ```bash
-./cy-truck.sh chemin_du_fichier -l
+./main.sh <chemin_du_fichier> -l
 ```
 Récupère les 10 trajets avec la plus grande distance totale et crée un histogramme vertical.
 
 #### Traitement [T] : Les 10 villes les plus traversées
 ```bash
-./cy-truck.sh chemin_du_fichier -t
+./main.sh <chemin_du_fichier> -t
 ```
 Compte le nombre de trajets traversant chaque ville et crée un histogramme regroupé.
 
 #### Traitement [S] : Statistiques sur les étapes
 ```bash
-./cy-truck.sh chemin_du_fichier -s
+./main.sh <chemin_du_fichier> -s
 ```
 Calcule les distances minimales, maximales et moyennes des étapes pour chaque trajet, puis crée un graphique de type courbes min-max-moyenne.
 
