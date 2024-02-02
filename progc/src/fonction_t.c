@@ -19,7 +19,7 @@ unsigned long char_to_int(char* chaine) {
     return num_tot;
 }
 
-// Fonction qui reenvoie le max entre 2 valeurs
+// Fonction qui renvoie le max entre 2 valeurs
 int max(int a, int b) {
     if (a > b){
         return a;
