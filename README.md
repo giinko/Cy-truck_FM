@@ -12,7 +12,9 @@ Bienvenue dans le projet CY TRUCK ! Ce script Shell et le programme C associé o
 
 1. Cloner le dépôt : `git clone https://github.com/giinko/Cy-truck-FM.git`
 
-2. Exectuer le Makefile : `make`
+2. Installer votre `fichier.csv`
+
+3. Exectuer le Makefile : `make`
 
 ## Traitements
 
