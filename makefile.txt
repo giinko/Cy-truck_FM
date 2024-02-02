@@ -1,0 +1,23 @@
+
+CC = gcc
+CFLAGS = -Wall -Wextra -std=c99
+TARGET = cy-truck
+SRC_DIR = progc/src
+HEADER_DIR = progc/header
+OBJ_DIR = progc/obj
+
+
+SRC_FILES = $(wildcard $(SRC_DIR)/.c)
+
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ_FILES)
+    $(CC) $(CFLAGS) -o $(TARGET) $(OBJ_FILES)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+    $(CC) $(CFLAGS) -c $< -o $@ -I$(HEADER_DIR)
+
+clean:
+    rm -f $(TARGET) $(OBJ_DIR)/.o
