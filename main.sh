@@ -153,24 +153,19 @@ case "$2" in
                 set output 'images/histogram.png'
                 set datafile separator ';'
 
-                # Set the style for histogram
                 set style data histogram
                 set style fill solid 1
                 set boxwidth 1.4
                 set margin 8,3,6,3
 
-                # Set X-axis labels to be rotated for better readability
                 set xtic rotate by -40 
 
                 set title 'Histogramme Vertical du Nombre de Trajet par ville' font 'Arial, 15'
                 set xlabel 'Nombre de trajet' font 'Arial, 12' offset 0,-0.3
                 set ylabel 'Noms des villes' font 'Arial, 12' offset 1,0
 
-                # Define the plot command
                 plot 'temp/traitement_t.txt' using 3:xtic(1) title 'Total Trajet' lt 1 lc 'blue', \
-                '' using 2:xtic(1) title 'Départ de Trajet' lt 2 lc '#0394fc'
-
-                # lt 1 and lt 2 set line types for better distinction between bars" > temp/traitement_t.gp
+                '' using 2:xtic(1) title 'Départ de Trajet' lt 2 lc '#0394fc'" > temp/traitement_t.gp
 
         gnuplot temp/traitement_t.gp
         ;;

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../header/avl.h"
+#include "../header/fonction_t.h"
 
 int main(int argc, char const *argv[])
 {

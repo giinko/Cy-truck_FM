@@ -1,27 +1,21 @@
-#include "../header/avl.h"
+#include "../header/fonction_s.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// Transforme une chaîne de caractère en nombre unique
-unsigned long char_to_int(char* chaine) {
-    int compteur = 0;
-    unsigned long num_tot = 0;
-    char car = chaine[0];
-    while (car != '\0') {
-        int tt = car - 64;
-        if (tt > 0) {
-            num_tot = (num_tot * 10) + tt;
-        }
-        compteur += 1;
-        car = *(chaine + compteur);
-    }
-    return num_tot;
-}
-
 // Fonction qui reenvoie le max entre 2 valeurs
 int max(int a, int b) {
-    if (a > b){
+    if (a >= b){
+        return a;
+    }
+    else{
+        return b;
+    }
+}
+
+// Fonction qui reenvoie le min entre 2 valeurs
+int min(int a,int b){
+    if (a <= b){
         return a;
     }
     else{
@@ -135,7 +129,7 @@ AVL* inserer(AVL* noeud, Informations* info){
 }
 
 //Fonction de recherche dans l'AVL
-AVL* rechercher_noeud(AVL* noeud, unsigned long valeur) {
+AVL* rechercher_noeud(AVL* noeud, int valeur) {
     if (noeud == NULL || valeur == noeud->valeur)
         return noeud;
 
@@ -149,14 +143,14 @@ AVL* rechercher_noeud(AVL* noeud, unsigned long valeur) {
 void infixe(AVL* arbre) {
     if (arbre != NULL) {
         infixe(arbre->gauche);
-        printf("nom ville : %s - nbr_t : %d :- nbr_c : %d \n", arbre->info->nom, arbre->info->nbr_trajet,arbre->info->nbr_trajet_1);
+        printf("%d;%d;%d\n", arbre->info->id_trajet,arbre->info->min,arbre->info->max);
         infixe(arbre->droite);
     }
 }
 
 void final_tri(AVL* initial, AVL** final) {
     if (initial != NULL) {
-        initial->info->cle = initial->info->nbr_trajet;
+        initial->info->cle = (initial->info->max)-(initial->info->min);
         *final = inserer(*final, initial->info);
 
         final_tri(initial->gauche, final);
@@ -164,60 +158,31 @@ void final_tri(AVL* initial, AVL** final) {
     }
 }
 
-void infixe_inverse(Informations** tab,AVL* abr, int* compteur,int* index) {
+void infixe_inverse(AVL* abr, int* compteur) {
     
     
 
-    if (abr != NULL && *compteur < 10) {
+    if (abr != NULL && *compteur < 50) {
 
-        infixe_inverse(tab,abr->droite, compteur,index);
+        infixe_inverse(abr->droite, compteur);
 
-        if (*compteur < 10) {
-            (*tab)[*index].nom = strdup(abr->info->nom);
-            (*tab)[*index].cle = abr->info->cle;
-            (*tab)[*index].nbr_trajet = abr->info->nbr_trajet;
-            (*tab)[*index].nbr_trajet_1 = abr->info->nbr_trajet_1;
-            
-            (*index)++;
+        if (*compteur < 50) {
+            int moy = (abr->info->tot)/(abr->info->count);
+            printf("%d;%d;%d;%d\n", abr->info->id_trajet,abr->info->min,abr->info->max,moy);
             (*compteur)++;
         }
 
-        infixe_inverse(tab,abr->gauche, compteur,index);
+        infixe_inverse(abr->gauche, compteur);
     }
 }
 
-// Fonction de comparaison pour qsort
-int comparer_noms(const void* a, const void* b) {
-    return strcmp(((Informations*)a)->nom, ((Informations*)b)->nom);
-}
-
-// Parcourir l'AVL et remplir le tableau avec les noms
-void remplir_tableau(AVL* racine, Informations* tableau, int* index) {
-    if (racine != NULL) {
-        remplir_tableau(racine->gauche, tableau, index);
-        strcpy(tableau[*index].nom, racine->info->nom);
-        (*index)++;
-        remplir_tableau(racine->droite, tableau, index);
-    }
-}
-
-// libérer l'espace alloué pour l'AVL
 void liberer_arbre(AVL* noeud) {
     if (noeud != NULL) {
         liberer_arbre(noeud->gauche);
         liberer_arbre(noeud->droite);
 
-        free(noeud->info->nom);
         free(noeud->info);
 
         free(noeud);
     }
-}
-
-// libérer l'espace alloué pour le tableau
-void liberer_tableau(Informations* tableau, int taille) {
-    for (int i = 0; i < taille; i++) {
-        free(tableau[i].nom);
-    }
-    free(tableau);
 }
