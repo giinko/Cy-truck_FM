@@ -12,6 +12,8 @@ Bienvenue dans le projet CY TRUCK ! Ce script Shell et le programme C associé o
 
 1. Cloner le dépôt : `git clone https://github.com/giinko/Cy-truck-FM.git`
 
+2. Exectuer le Makefile : `make -f Makefile.txt`
+
 ## Traitements
 
 #### Traitement [D1] : Conducteurs avec le plus de trajets
