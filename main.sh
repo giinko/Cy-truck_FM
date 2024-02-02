@@ -157,7 +157,6 @@ case "$2" in
                 set style fill solid 1
                 set boxwidth 1.4
                 set margin 8,3,6,3
-
                 set xtic rotate by -40 
 
                 set title 'Histogramme Vertical du Nombre de Trajet par ville' font 'Arial, 15'
@@ -179,10 +178,24 @@ case "$2" in
         cd ../..
 
         echo "
-          
+            set terminal pngcairo enhanced font 'arial,10' size 1000,600
+            set output 'images/traitement_s.png'
+            set datafile separator ';'
+            
+            set style fill solid 0.5
+            set xtics rotate by -45
+            set xtic scale 1
+            set margin 8,3,6,3
 
-            "
-            #pas encore fonctionnel !! a finir !
+            set title 'Graphique min-max-moyenne des trajets' font 'Arial, 15'
+            set xlabel 'Routes ID' font 'Arial, 12' offset 0,-0.3
+            set ylabel 'Distance' font 'Arial, 12' offset 1,0
+                    
+            plot 'temp/traitement_s.txt' using 0:2:3 with filledcurve fc rgb '#0394fc' title 'Distance entre Min/Max',\
+            'temp/traitement_s.txt' using 0:4:xticlabels(1) with lines linestyle 2  linetype 1 linewidth 2 lc 'blue' title 'Distance moyenne en Km'
+            ">temp/traitement_s.gp
+
+            gnuplot temp/traitement_s.gp
         ;;
     *)
         echo "option inconnue, veuillez réessayez"
