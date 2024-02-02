@@ -10,7 +10,7 @@ Bienvenue dans le projet CY TRUCK ! Ce script Shell et le programme C associé o
 
 ## Installation
 
-1. Cloner le dépôt : `git clone https://github.com/giinko/cy-truck.git`
+1. Cloner le dépôt : `git clone https://github.com/giinko/Cy-truck-FM.git`
 2. Se déplacer dans le répertoire : `cd cy-truck`
 
 ## Traitements
