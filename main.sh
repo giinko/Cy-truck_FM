@@ -46,16 +46,19 @@ case "$2" in
     echo "  -d1           Affiche le nombre total de trajets par chauffeur"
     echo "  -d2           Affiche la distance totale parcourue par chaque chauffeur"
     echo "  -l            Affiche un histogramme vertical des distances de trajets"
-    echo "  -traitement 5 *Explication du traitement 5*"
+    echo "  -t            Affiche les 10 villes les plus traversées"
+    echo "  -s            Affiche un graphique de type courbes min-max-moyenne"
     echo
     echo "Exemples:"
-    echo "  $0 fichier.csv -d1"
-    echo "  $0 fichier.csv -d2"
-    echo "  $0 fichier.csv -l"
+    echo "  $0 <fichier.csv> -d1"
+    echo "  $0 <fichier.csv> -d2"
+    echo "  $0 <fichier.csv> -l"
+    echo "  $0 <fichier.csv> -t"
+    echo "  $0 <fichier.csv> -s"
     exit 0
         ;;
 
-    # cas -d1 : Nombre totale de tajet par chauffeur 
+    # cas -d1 : Nombre total de tajet par chauffeur 
     -d1)
         echo "Traitement de votre demande en cours ..."
         data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
@@ -85,7 +88,7 @@ case "$2" in
         gnuplot temp/conducteurs.gp
         ;;
 
-    # cas -d2 : La distance parcouru par chaque chauffeur
+    # cas -d2 : La distance parcourue par chaque chauffeur
     -d2)
         echo "Traitement de votre demande en cours ..."
         data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
@@ -147,7 +150,7 @@ case "$2" in
         echo "Traitement de votre demande en cours ..."
         data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
-        #Se diriger dans le dossire ou ont été compiler les fichier necessaire au traitement
+        #Se diriger dans le dossier où ont été compiler les fichier necessaires au traitement
         cd progc/src
         ./traitement_t "$data_csv" > ../../temp/traitement_t.txt
         cd ../..
@@ -178,7 +181,7 @@ case "$2" in
         echo "Traitement de votre demande en cours ..."
         data_csv="$1"  # Chemin vers le fichier CSV des conducteurs
 
-        #Se diriger dans le dossire ou ont été compiler les fichier necessaire au traitement
+        #Se diriger dans le dossier où ont été compiler les fichier necessaire au traitement
         cd progc/src
         ./traitement_s "$data_csv" #> ../../temp/traitement_s.txt
         cd ../..
@@ -210,10 +213,10 @@ case "$2" in
         ;;
 esac
 
-# Pour supprimer tous les fichiers dans le dossiers temps /!\ voir si nécessaire dans la consigne 
+# Pour supprimer tous les fichiers dans le dossier temp /!\ voir si nécessaire dans la consigne 
 rm -rf temp/*
 
-# Mesurer le temps après le traitement (pour voir si respect la contrainte de temps)
+# Mesurer le temps après le traitement (pour voir si on respecte la contrainte de temps)
 end_time=$(date +%s)
 elapsed_time=$((end_time - start_time))
 echo "Durée totale des traitements : $elapsed_time secondes"
